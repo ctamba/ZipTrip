@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ziptrip.CreateAccountActivity;
+import com.example.ziptrip.DashboardActivity;
 import com.example.ziptrip.R;
 import com.example.ziptrip.ui.login.LoginViewModel;
 import com.example.ziptrip.ui.login.LoginViewModelFactory;
@@ -120,6 +121,10 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+
+                // Setting intent to change screens
+                Intent dashIntent = new Intent(getApplicationContext(), DashboardActivity.class);
+                startActivity(dashIntent);
             }
         });
 
