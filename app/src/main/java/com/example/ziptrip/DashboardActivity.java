@@ -55,6 +55,8 @@ public class DashboardActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
             startActivity(intent);
             return true;
+
+
         }
 
         return super.onOptionsItemSelected(item);
