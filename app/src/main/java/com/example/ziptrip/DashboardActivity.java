@@ -1,9 +1,10 @@
 package com.example.ziptrip;
 
-import android.content.ClipData;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.internal.FlowLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 public class DashboardActivity extends AppCompatActivity {
 
     private Toolbar menuBar;
+    FloatingActionButton addTripBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +27,18 @@ public class DashboardActivity extends AppCompatActivity {
 
         // Configuring menu bar
         menuBar = findViewById(R.id.toolbar);
+        addTripBtn = (FloatingActionButton)findViewById(R.id.addTripBtn);
         setSupportActionBar(menuBar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.addTripBtn);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                // Create intent to add trip activity
+                Intent addTripIntent = new Intent(getApplicationContext(), CreateTripActivity.class);
+                startActivity(addTripIntent);
             }
         });
     }

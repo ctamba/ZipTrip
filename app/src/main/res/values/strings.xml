@@ -16,4 +16,11 @@
     <string name="email_invalid">Invalid email address</string>
     <string name="prompt_phone">Phone</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="create_trip_label">Create a Trip</string>
+    <string name="trip_name_label">Trip Name</string>
+    <string name="destination_label">Destination</string>
+    <string name="add_friends_label">Add Friends</string>
+    <string name="set_date_label">Set Date</string>
+    <string name="no_trips">No trips yet! Click the + button to add one!</string>
+    <string name="create_trip">Create Trip</string>
 </resources>

@@ -26,14 +26,15 @@
 
         <TableLayout
             android:id="@+id/formLayout"
-            android:layout_width="match_parent"
+            android:layout_width="322dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
             android:layout_marginTop="35dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
-            android:layout_marginBottom="22dp">
+            android:layout_marginBottom="22dp"
+            android:gravity="center">
 
             <TableRow
                 android:id="@+id/emailRow"
@@ -58,8 +59,8 @@
                     android:layout_height="match_parent"
                     android:autoText="false"
                     android:ems="10"
-                    android:inputType="textPersonName"
                     android:hint="@string/prompt_email"
+                    android:inputType="textPersonName"
                     android:textColor="#99000000" />
             </TableRow>
 
@@ -108,8 +109,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:inputType="textPassword"
                     android:hint="@string/prompt_password"
+                    android:inputType="textPassword"
                     android:textColor="#99000000" />
             </TableRow>
 
@@ -135,8 +136,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:inputType="textPassword"
                     android:hint="@string/check_password"
+                    android:inputType="textPassword"
                     android:textColor="#99000000" />
             </TableRow>
 
@@ -185,9 +186,9 @@
                     android:layout_height="match_parent"
                     android:digits="0123456789+"
                     android:ems="10"
+                    android:hint="@string/prompt_phone"
                     android:inputType="phone"
                     android:maxLength="10"
-                    android:hint="@string/prompt_phone"
                     android:textColor="#99000000" />
             </TableRow>
 
