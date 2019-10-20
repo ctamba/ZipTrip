@@ -23,4 +23,16 @@
     <string name="set_date_label">Set Date</string>
     <string name="no_trips">No trips yet! Click the + button to add one!</string>
     <string name="create_trip">Create Trip</string>
+
+    <!--- Strings related to Edit Profile -->
+    <string name="editProfileLabel">Edit Profile</string>
+    <string name="nameLabel">Name:</string>
+    <string name="emailLabel">Email Address:</string>
+    <string name="phoneLabel">Phone Number:</string>
+    <string name="passwordLabel">Password:</string>
+    <string name="updateProfileBtn">Update</string>
+
+
+    <!-- Strings related to Profile Page -->
+    <string name="profileLabel">Your Profile</string>
 </resources>

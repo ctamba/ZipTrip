@@ -23,6 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".CreateTripActivity"></activity>
+        <activity android:name=".ProfilePage"></activity>
+        <activity android:name=".editProfile" />
         <activity
             android:name=".DashboardActivity"
             android:label="@string/title_activity_dashboard"
