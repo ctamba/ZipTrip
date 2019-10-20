@@ -21,7 +21,7 @@ public class ProfilePage extends AppCompatActivity {
         final TextView phoneNum = (TextView) findViewById(R.id.phoneNum);
         final TextView password = (TextView) findViewById(R.id.password);
 
-        boolean test = true; // making changes to retry Git
+        boolean test = true; // making changes to retry Git test
 
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
