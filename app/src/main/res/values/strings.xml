@@ -16,4 +16,16 @@
     <string name="email_invalid">Invalid email address</string>
     <string name="prompt_phone">Phone</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
+
+    <!--- Strings related to Edit Profile -->
+    <string name="editProfileLabel">Edit Profile</string>
+    <string name="nameLabel">Name:</string>
+    <string name="emailLabel">Email Address:</string>
+    <string name="phoneLabel">Phone Number:</string>
+    <string name="passwordLabel">Password:</string>
+    <string name="updateProfileBtn">Update</string>
+
+
+    <!-- Strings related to Profile Page -->
+    <string name="profileLabel">Your Profile</string>
 </resources>

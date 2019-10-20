@@ -1,6 +1,7 @@
 package com.example.ziptrip;
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -51,6 +52,8 @@ public class DashboardActivity extends AppCompatActivity {
 
         if(id == R.id.menu_profile){
             Toast.makeText(this, "Profile clicked!",Toast.LENGTH_SHORT);
+            Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
+            startActivity(intent);
             return true;
         }
 
