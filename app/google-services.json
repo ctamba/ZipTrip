@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "335922862322",
+    "firebase_url": "https://ziptrip-256421.firebaseio.com",
+    "project_id": "ziptrip-256421",
+    "storage_bucket": "ziptrip-256421.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335922862322:android:961a5073b1d112ab93d86b",
+        "android_client_info": {
+          "package_name": "com.example.ziptrip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335922862322-68l8u9e3igknf31fcgskke1jcgo6s9gc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbnQz8CFnSeGn8Dwd5JrYBxTglls9BPRY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335922862322-68l8u9e3igknf31fcgskke1jcgo6s9gc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
