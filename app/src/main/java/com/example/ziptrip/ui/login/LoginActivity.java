@@ -125,7 +125,11 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
 
                 // Setting intent to change screens
+
+                Bundle dashExtras = new Bundle();
+                dashExtras.putString("email", usernameEditText.getText().toString());
                 Intent dashIntent = new Intent(getApplicationContext(), DashboardActivity.class);
+                dashIntent.putExtras(dashExtras);
                 startActivity(dashIntent);
             }
         });
