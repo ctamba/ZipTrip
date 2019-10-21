@@ -6,107 +6,137 @@
     android:layout_height="match_parent"
     tools:context=".CreateTripActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/createTripLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="50dp"
-            android:gravity="center"
-            android:text="@string/create_trip_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-        <TextView
-            android:id="@+id/tripNameTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#9C4CAF50"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="@string/trip_name_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <EditText
-            android:id="@+id/tripNameInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Spring break vacay!"
-            android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/destinationTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#9C4CAF50"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="@string/destination_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            tools:context="com.example.ziptrip.CreateTripActivity" />
-
-        <TextView
-            android:id="@+id/setDateTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#9C4CAF50"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="@string/set_date_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/startDateInput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="date" />
-
-            <EditText
-                android:id="@+id/endDateInput"
+            <TextView
+                android:id="@+id/createTripLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="50dp"
+                android:gravity="center"
+                android:text="@string/create_trip_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <TextView
+                android:id="@+id/tripNameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#9C4CAF50"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/trip_name_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <EditText
+                android:id="@+id/tripNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="date" />
+                android:hint="Spring break vacay!"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/destinationTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#9C4CAF50"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/destination_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <EditText
+                android:id="@+id/destinationInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/destination_label"
+                android:inputType="textPersonName" />
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                tools:context="com.example.ziptrip.CreateTripActivity" />
+
+            <TextView
+                android:id="@+id/setDateTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#9C4CAF50"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/set_date_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/startDateBtn"
+                    android:layout_width="68dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/ic_menu_my_calendar" />
+
+                <EditText
+                    android:id="@+id/startDateInput"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:ems="10"
+                    android:inputType="date" />
+
+                <Button
+                    android:id="@+id/endDateBtn"
+                    android:layout_width="68dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/ic_menu_my_calendar" />
+
+                <EditText
+                    android:id="@+id/endDateInput"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:editable="false"
+                    android:ems="10"
+                    android:inputType="date" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/addFriendsTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#9C4CAF50"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/add_friends_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <Button
+                android:id="@+id/createTripBtn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="#B94CAF50"
+                android:text="@string/create_trip"
+                android:textAllCaps="false" />
+
         </LinearLayout>
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/addFriendsTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#9C4CAF50"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="@string/add_friends_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <Button
-            android:id="@+id/createTripBtn"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="#B94CAF50"
-            android:text="@string/create_trip"
-            android:textAllCaps="false" />
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

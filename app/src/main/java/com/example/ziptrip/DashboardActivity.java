@@ -57,7 +57,7 @@ public class DashboardActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.menu_profile){
-            Toast.makeText(this, "Profile clicked!",Toast.LENGTH_SHORT);
+            // If profile button clicked, set intent
             Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
             startActivity(intent);
             return true;

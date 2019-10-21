@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="50dp">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="249dp">
 
         <TextView
             android:id="@+id/createAccountTv"
@@ -24,188 +24,256 @@
             android:text="@string/create_account_label"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-        <TableLayout
-            android:id="@+id/formLayout"
-            android:layout_width="322dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginBottom="22dp"
-            android:gravity="center">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <TableRow
-                android:id="@+id/emailRow"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/emailLabel"
-                    android:layout_width="72dp"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:text="@string/prompt_email"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-                <Space
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent" />
-
-                <EditText
-                    android:id="@+id/emailInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:autoText="false"
-                    android:ems="10"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textPersonName"
-                    android:textColor="#99000000" />
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/verifyEmailRow"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="invisible">
-
-                <Space
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent" />
-
-                <Space
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:id="@+id/passwdNotMatchTv2"
+                <TableLayout
+                    android:id="@+id/formLayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/email_invalid"
-                    android:textColor="#C6FF0000"
-                    android:visibility="visible" />
-            </TableRow>
+                    android:layout_height="382dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="22dp"
+                    android:gravity="center">
 
-            <TableRow
-                android:id="@+id/passwdRow"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                    <TableRow
+                        android:id="@+id/fNameRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/passwdLabel"
-                    android:layout_width="110dp"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:text="@string/prompt_password"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        <TextView
+                            android:id="@+id/fNameLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="@string/first_name"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-                <Space
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent" />
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent" />
 
-                <EditText
-                    android:id="@+id/passwdInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:hint="@string/prompt_password"
-                    android:inputType="textPassword"
-                    android:textColor="#99000000" />
-            </TableRow>
+                        <EditText
+                            android:id="@+id/fNameInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:autoText="false"
+                            android:ems="10"
+                            android:hint="@string/first_name"
+                            android:inputType="textPersonName"
+                            android:textColor="#99000000" />
+                    </TableRow>
 
-            <TableRow
-                android:id="@+id/checkPasswdRow"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                    <TableRow
+                        android:id="@+id/lNameRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/checkPasswdLabel"
-                    android:layout_width="122dp"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:text="@string/check_password"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        <TextView
+                            android:id="@+id/lNameLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="@string/last_name"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-                <Space
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent" />
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent" />
 
-                <EditText
-                    android:id="@+id/checkPasswdInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:hint="@string/check_password"
-                    android:inputType="textPassword"
-                    android:textColor="#99000000" />
-            </TableRow>
+                        <EditText
+                            android:id="@+id/lNameInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:autoText="false"
+                            android:ems="10"
+                            android:hint="@string/last_name"
+                            android:inputType="textPersonName"
+                            android:textColor="#99000000" />
+                    </TableRow>
 
-            <TableRow
-                android:id="@+id/verifyPasswdRow"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="invisible">
+                    <TableRow
+                        android:id="@+id/emailRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                <Space
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent" />
+                        <TextView
+                            android:id="@+id/emailLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="@string/prompt_email"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-                <Space
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent" />
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent" />
 
-                <TextView
-                    android:id="@+id/passwdNotMatchTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/passwords_not_match"
-                    android:textColor="#C6FF0000" />
-            </TableRow>
+                        <EditText
+                            android:id="@+id/emailInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:autoText="false"
+                            android:ems="10"
+                            android:hint="@string/prompt_email"
+                            android:inputType="textPersonName"
+                            android:textColor="#99000000" />
+                    </TableRow>
 
-            <TableRow
-                android:id="@+id/phoneRow"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                    <TableRow
+                        android:id="@+id/verifyEmailRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible">
 
-                <TextView
-                    android:id="@+id/phoneLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:text="@string/prompt_phone"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        <Space
+                            android:layout_width="107dp"
+                            android:layout_height="match_parent" />
 
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                        <Space
+                            android:layout_width="24dp"
+                            android:layout_height="match_parent" />
 
-                <EditText
-                    android:id="@+id/phoneInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:digits="0123456789+"
-                    android:ems="10"
-                    android:hint="@string/prompt_phone"
-                    android:inputType="phone"
-                    android:maxLength="10"
-                    android:textColor="#99000000" />
-            </TableRow>
+                        <TextView
+                            android:id="@+id/passwdNotMatchTv2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/email_invalid"
+                            android:textColor="#C6FF0000"
+                            android:visibility="visible" />
+                    </TableRow>
 
-        </TableLayout>
+                    <TableRow
+                        android:id="@+id/passwdRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/createAccountBtn"
-            android:layout_width="142dp"
-            android:layout_height="53dp"
-            android:layout_gravity="center"
-            android:background="#884CAF50"
-            android:gravity="center_horizontal|center_vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="@string/create_account"
-            android:textAllCaps="false"
-            android:typeface="sans" />
+                        <TextView
+                            android:id="@+id/passwdLabel"
+                            android:layout_width="110dp"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="@string/prompt_password"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                        <Space
+                            android:layout_width="24dp"
+                            android:layout_height="match_parent" />
+
+                        <EditText
+                            android:id="@+id/passwdInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:ems="10"
+                            android:hint="@string/prompt_password"
+                            android:inputType="textPassword"
+                            android:textColor="#99000000" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/checkPasswdRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/checkPasswdLabel"
+                            android:layout_width="84dp"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="@string/check_password"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                        <Space
+                            android:layout_width="24dp"
+                            android:layout_height="match_parent" />
+
+                        <EditText
+                            android:id="@+id/checkPasswdInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:ems="10"
+                            android:hint="@string/check_password"
+                            android:inputType="textPassword"
+                            android:textColor="#99000000" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/verifyPasswdRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="invisible">
+
+                        <Space
+                            android:layout_width="24dp"
+                            android:layout_height="match_parent" />
+
+                        <Space
+                            android:layout_width="24dp"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:id="@+id/passwdNotMatchTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/passwords_not_match"
+                            android:textColor="#C6FF0000" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/phoneRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/phoneLabel"
+                            android:layout_width="96dp"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="@string/prompt_phone"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent" />
+
+                        <EditText
+                            android:id="@+id/phoneInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:digits="0123456789+"
+                            android:ems="10"
+                            android:hint="@string/prompt_phone"
+                            android:inputType="phone"
+                            android:maxLength="10"
+                            android:textColor="#99000000" />
+                    </TableRow>
+
+                </TableLayout>
+
+                <Button
+                    android:id="@+id/createAccountBtn"
+                    android:layout_width="142dp"
+                    android:layout_height="53dp"
+                    android:layout_gravity="center"
+                    android:background="#884CAF50"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="@string/create_account"
+                    android:textAllCaps="false"
+                    android:typeface="sans" />
+            </LinearLayout>
+        </ScrollView>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

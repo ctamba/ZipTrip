@@ -9,13 +9,21 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be more than 8 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <!-- Strings for creating an account -->
     <string name="create_account_label">Create an Account</string>
     <string name="create_account">Create Account</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
     <string name="check_password">Re-enter Password</string>
     <string name="passwords_not_match">Passwords do not match</string>
     <string name="email_invalid">Invalid email address</string>
     <string name="prompt_phone">Phone</string>
+
+    <!-- Strings for dashboard -->
     <string name="title_activity_dashboard">DashboardActivity</string>
+
+    <!-- Strings for creating a trip -->
     <string name="create_trip_label">Create a Trip</string>
     <string name="trip_name_label">Trip Name</string>
     <string name="destination_label">Destination</string>
