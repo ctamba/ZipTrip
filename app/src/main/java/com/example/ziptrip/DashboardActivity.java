@@ -58,7 +58,18 @@ public class DashboardActivity extends AppCompatActivity {
 
         if(id == R.id.menu_profile){
             Toast.makeText(this, "Profile clicked!",Toast.LENGTH_SHORT);
+
+            Intent dashIntent = getIntent();
+            Bundle dashIntentExtras = dashIntent.getExtras();
+
+            String email = dashIntentExtras.getString("email");
+
+            Bundle profileExtras = new Bundle();
+            profileExtras.putString("email", email);
+
+
             Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
+            intent.putExtras(profileExtras);
             startActivity(intent);
             return true;
 
