@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -75,8 +76,9 @@ public class LoginActivity extends AppCompatActivity {
                     showLoginFailed(loginResult.getError());
                 }
                 if (loginResult.getSuccess() != null) {
-                    // Send user to dashboard
+                    // Send user to dashboard with extra
                     Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
+                    dashboardIntent.putExtra("email", usernameEditText.getText().toString());
                     startActivity(dashboardIntent);
                 }
                 setResult(Activity.RESULT_OK);
@@ -124,13 +126,6 @@ public class LoginActivity extends AppCompatActivity {
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
 
-                // Setting intent to change screens
-
-                Bundle dashExtras = new Bundle();
-                dashExtras.putString("email", usernameEditText.getText().toString());
-                Intent dashIntent = new Intent(getApplicationContext(), DashboardActivity.class);
-                dashIntent.putExtras(dashExtras);
-                startActivity(dashIntent);
             }
         });
 

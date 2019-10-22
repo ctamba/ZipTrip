@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ import static com.example.ziptrip.util.Constants.PERMISSIONS_REQUEST_ACCESS_FINE
 public class CreateTripActivity extends AppCompatActivity implements OnMapReadyCallback {
     // Initializing database
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Intent tripIntent;
 
     // UI Components
     String TAG = "TripCreate_Map";
@@ -69,6 +71,8 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
         tripNameInput = (EditText)findViewById(R.id.tripNameInput);
         destinationInput = (EditText)findViewById(R.id.destinationInput);
 
+        tripIntent = getIntent();
+
         // Get the SupportMapFragment and request notification
         // when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -85,9 +89,13 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
                 trip.put("startdate", startDateInput.getText().toString());
                 trip.put("enddate", endDateInput.getText().toString());
                 trip.put("friends", "test");
+                trip.put("owner", tripIntent.getStringExtra("email"));
+
+                // Concatenate unique tripID
+                String tripId = tripIntent.getStringExtra("email") + "-" + tripNameInput.getText().toString();
 
                 // Add a new document with a generated ID (can customize later)
-                db.collection("trips").document(tripNameInput.getText().toString())
+                db.collection("trips").document(tripId)
                         .set(trip)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
