@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
                     dashboardIntent.putExtra("email", usernameEditText.getText().toString());
                     startActivity(dashboardIntent);
+                    finish();
                 }
                 setResult(Activity.RESULT_OK);
 

@@ -22,6 +22,8 @@
 
     <!-- Strings for dashboard -->
     <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="current_trips">Current Trips</string>
+    <string name="attendees_label">Attendees</string>
 
     <!-- Strings for creating a trip -->
     <string name="create_trip_label">Create a Trip</string>

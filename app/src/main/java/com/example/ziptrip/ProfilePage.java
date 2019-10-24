@@ -21,41 +21,20 @@ public class ProfilePage extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String TAG = "test";
 
+    // View components
+    TextView name, emailAddress, phoneNum, password;
+    Button editProfileBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
 
-        final Button editProfileBtn = (Button) findViewById(R.id.editProfileBtn);
-        final TextView name = (TextView) findViewById(R.id.profileName);
-        final TextView emailAddress = (TextView) findViewById(R.id.emailAddress);
-        final TextView phoneNum = (TextView) findViewById(R.id.phoneNum);
-        final TextView password = (TextView) findViewById(R.id.password);
-
-        Intent profileIntent = getIntent();
-        Bundle profileIntentExtras = profileIntent.getExtras();
-        String email = profileIntentExtras.getString("email");
-
-
-        DocumentReference docRef = db.collection("users").document(email);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot profileInfo = task.getResult();
-                    if (profileInfo.exists()) {
-                        name.setText(profileInfo.getString("firstname") + " " + profileInfo.get("lastname"));
-                        emailAddress.setText(profileInfo.getString("email"));
-                        phoneNum.setText(profileInfo.getString("phone"));
-                        password.setText(profileInfo.getString("password"));
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
+        editProfileBtn = (Button) findViewById(R.id.editProfileBtn);
+        name = (TextView) findViewById(R.id.profileName);
+        emailAddress = (TextView) findViewById(R.id.emailAddress);
+        phoneNum = (TextView) findViewById(R.id.phoneNum);
+        password = (TextView) findViewById(R.id.password);
 
 
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
@@ -76,5 +55,38 @@ public class ProfilePage extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        // Update db info
+        Intent profileIntent = getIntent();
+        Bundle profileIntentExtras = profileIntent.getExtras();
+        String email = profileIntentExtras.getString("email");
+        retrieveProfileInfo(email);
+    }
+
+    public void retrieveProfileInfo(String email){
+        DocumentReference docRef = db.collection("users").document(email);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot profileInfo = task.getResult();
+                    if (profileInfo.exists()) {
+                        name.setText(profileInfo.getString("firstname") + " " + profileInfo.get("lastname"));
+                        emailAddress.setText(profileInfo.getString("email"));
+                        phoneNum.setText(profileInfo.getString("phone"));
+                        password.setText(profileInfo.getString("password"));
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
 }

@@ -12,6 +12,10 @@
         app:showAsAction="ifRoom">
 
     </item>
+    <item
+        android:id="@+id/settingsBtn"
+        android:enabled="true"
+        android:title="Sign Out" />
 
 
 </menu>

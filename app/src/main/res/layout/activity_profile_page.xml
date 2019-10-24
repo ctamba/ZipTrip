@@ -1,140 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ProfilePage">
-
-    <TextView
-        android:id="@+id/passswordLabel"
-        android:layout_width="136dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="348dp"
-        android:layout_marginBottom="348dp"
-        android:text="@string/passwordLabel"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/password"
-        android:layout_width="130dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="185dp"
-        android:layout_marginTop="348dp"
-        android:layout_marginBottom="352dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/phoneLabel"
-        android:layout_width="136dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="277dp"
-        android:layout_marginBottom="419dp"
-        android:text="@string/phoneLabel"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/phoneNum"
-        android:layout_width="130dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="185dp"
-        android:layout_marginTop="277dp"
-        android:layout_marginBottom="423dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/emailLabel"
-        android:layout_width="136dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="211dp"
-        android:layout_marginBottom="485dp"
-        android:text="@string/emailLabel"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/emailAddress"
-        android:layout_width="130dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="185dp"
-        android:layout_marginTop="211dp"
-        android:layout_marginBottom="489dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/profileLabel"
         android:layout_width="174dp"
         android:layout_height="54dp"
-        android:layout_marginStart="118dp"
-        android:layout_marginLeft="118dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginBottom="632dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
         android:text="@string/profileLabel"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="30sp" />
 
-    <TextView
-        android:id="@+id/nameLabel"
-        android:layout_width="84dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="141dp"
-        android:layout_marginBottom="554dp"
-        android:text="@string/nameLabel"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="204dp">
 
-    <TextView
-        android:id="@+id/profileName"
-        android:layout_width="130dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="141dp"
-        android:layout_marginBottom="559dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TableRow
+            android:id="@+id/nameRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/nameLabel"
+                android:layout_width="159dp"
+                android:layout_height="match_parent"
+                android:text="@string/nameLabel"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/profileName"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/emailRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/emailLabel"
+                android:layout_width="57dp"
+                android:layout_height="57dp"
+                android:text="@string/emailLabel"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/emailAddress"
+                android:layout_width="247dp"
+                android:layout_height="59dp"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/phoneRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/phoneLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="47dp"
+                android:text="@string/phoneLabel"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/phoneNum"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/passwordRow"
+            android:layout_width="364dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/passswordLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/passwordLabel"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="31dp"
+                android:textSize="18sp" />
+        </TableRow>
+
+    </TableLayout>
 
     <Button
         android:id="@+id/editProfileBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="149dp"
-        android:layout_marginLeft="149dp"
-        android:layout_marginTop="443dp"
-        android:layout_marginBottom="240dp"
-        android:text="@string/editProfileLabel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/editProfileLabel" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -141,14 +141,12 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        // making map global
         userMap = googleMap;
 
-        // Setting marker to syndey
-        LatLng sydney = new LatLng(-33.852, 151.211);
-        googleMap.addMarker(new MarkerOptions().position(sydney)
-                .title("Marker in Sydney"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // Add a marker in current location and move the camera.
+        LatLng currentLocation = new LatLng(33.937842, -84.519933);
+        userMap.addMarker(new MarkerOptions().position(currentLocation).title("Marker in Sydney"));
+        userMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
     }
 
 //    @Override
