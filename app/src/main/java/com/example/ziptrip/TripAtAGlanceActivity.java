@@ -1,11 +1,13 @@
 package com.example.ziptrip;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -13,16 +15,19 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.List;
 
 public class TripAtAGlanceActivity extends AppCompatActivity {
     // Firebase variables
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String TAG = "DashboardActivity";
+    String TAG = "TripAtAGlanceActivity";
 
     // Retrieve intent
     Intent glanceIntent;
@@ -53,8 +58,32 @@ public class TripAtAGlanceActivity extends AppCompatActivity {
         addFriendBtn = (ImageButton)findViewById(R.id.addFriendImgBtn);
         shoppingListBtn = (ImageButton)findViewById(R.id.expandListImgBtn);
 
-        // load data from firebase
-        loadData();
+        // Onclick listeners
+        addFriendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create intent to pass username to next activity
+                Intent friendIntent = new Intent(getApplicationContext(), AddFriendActivity.class);
+                friendIntent.putExtra("username", glanceIntent.getStringExtra("username"));
+                friendIntent.putExtra("tripname", tripName.getText().toString());
+                startActivity(friendIntent);
+            }
+        });
+
+        // Load data if any data changes
+        DocumentReference tripRef = db.collection("trips").document(glanceIntent.getStringExtra("tripId"));
+        tripRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if(documentSnapshot != null && documentSnapshot.exists()){
+                    Log.i(TAG, "In the listener method");
+                    friendList.setText("");
+                    StringBuilder emptySb = new StringBuilder();
+                    fullNameList = emptySb;
+                    loadData();
+                }
+            }
+        });
     }
 
     public void loadData(){
@@ -72,6 +101,7 @@ public class TripAtAGlanceActivity extends AppCompatActivity {
                     tripName.setText(task.getResult().get("tripname").toString());
                     tripDestination.setText("Destination: " + task.getResult().get("destination").toString());
                     friends = (List<String>)task.getResult().get("friends");
+                    Log.i(TAG, "Friend list contents: " + friends);
                     loadFriends();
                 }
                 else{
@@ -83,8 +113,6 @@ public class TripAtAGlanceActivity extends AppCompatActivity {
 
     public void loadFriends(){
         for(final String username : friends){
-            Log.i(TAG, "Current username: " + username);
-
             // get reference in firebase
             DocumentReference friendRef = db.collection("users").document(username);
             friendRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

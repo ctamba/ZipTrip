@@ -148,10 +148,10 @@
 
                 <EditText
                     android:id="@+id/searchFriendEt"
-                    android:layout_width="239dp"
+                    android:layout_width="264dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="Search for friend's username"
+                    android:hint="@string/add_friend_edittext"
                     android:inputType="textPersonName" />
 
                 <Button

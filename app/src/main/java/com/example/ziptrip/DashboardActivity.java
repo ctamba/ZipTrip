@@ -17,9 +17,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.api.Distribution;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -68,9 +71,6 @@ public class DashboardActivity extends AppCompatActivity{
         tView = findViewById(R.id.tripRecylerView);
         tManager = new LinearLayoutManager(DashboardActivity.this);
 
-        // Retrieving trips
-        //retrieveTrips();
-
         FloatingActionButton fab = findViewById(R.id.addTripBtn);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,22 +83,39 @@ public class DashboardActivity extends AppCompatActivity{
                 startActivity(addTripIntent);
             }
         });
+
+        // Load and change data when data changes
+        DocumentReference userRef = db.collection("users").document(dashIntent.getStringExtra("username"));
+        userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if(documentSnapshot != null && documentSnapshot.exists()){
+                    // Clear all views and reload
+                    tripList.clear();
+                    tAdapter = new RetrieveTripsAdapter(tripList);
+                    tView.setLayoutManager(tManager);
+                    tView.setAdapter(tAdapter);
+
+                    retrieveTrips();
+                }
+            }
+        });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if(tView != null){
-            // Clear all views and reload
-            tripList.clear();
-            tAdapter = new RetrieveTripsAdapter(tripList);
-            tView.setLayoutManager(tManager);
-            tView.setAdapter(tAdapter);
-
-            retrieveTrips();
-        }
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        if(tView != null){
+//            // Clear all views and reload
+//            tripList.clear();
+//            tAdapter = new RetrieveTripsAdapter(tripList);
+//            tView.setLayoutManager(tManager);
+//            tView.setAdapter(tAdapter);
+//
+//            retrieveTrips();
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
