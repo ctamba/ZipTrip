@@ -20,6 +20,7 @@ public class ProfilePage extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String TAG = "test";
+    Intent profileIntent;
 
     // View components
     TextView name, emailAddress, phoneNum, password;
@@ -35,6 +36,7 @@ public class ProfilePage extends AppCompatActivity {
         emailAddress = (TextView) findViewById(R.id.emailAddress);
         phoneNum = (TextView) findViewById(R.id.phoneNum);
         password = (TextView) findViewById(R.id.password);
+        profileIntent = getIntent();
 
 
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +52,7 @@ public class ProfilePage extends AppCompatActivity {
                 extras.putString("email", email);
                 extras.putString("phone", phone);
                 extras.putString("pass", pass);
+                extras.putString("username", profileIntent.getStringExtra("username"));
                 intent.putExtras(extras);
                 startActivity(intent);
             }
@@ -62,14 +65,13 @@ public class ProfilePage extends AppCompatActivity {
         super.onResume();
 
         // Update db info
-        Intent profileIntent = getIntent();
         Bundle profileIntentExtras = profileIntent.getExtras();
-        String email = profileIntentExtras.getString("email");
-        retrieveProfileInfo(email);
+        String username = profileIntentExtras.getString("username");
+        retrieveProfileInfo(username);
     }
 
-    public void retrieveProfileInfo(String email){
-        DocumentReference docRef = db.collection("users").document(email);
+    public void retrieveProfileInfo(String username){
+        DocumentReference docRef = db.collection("users").document(username);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -79,6 +81,7 @@ public class ProfilePage extends AppCompatActivity {
                         name.setText(profileInfo.getString("firstname") + " " + profileInfo.get("lastname"));
                         emailAddress.setText(profileInfo.getString("email"));
                         phoneNum.setText(profileInfo.getString("phone"));
+                        Log.i(TAG, "updated phone number: " + phoneNum.getText().toString());
                         password.setText(profileInfo.getString("password"));
                     } else {
                         Log.d(TAG, "No such document");

@@ -42,7 +42,13 @@
     <string name="passwordLabel">Password:</string>
     <string name="updateProfileBtn">Update</string>
 
-
     <!-- Strings related to Profile Page -->
     <string name="profileLabel">Your Profile</string>
+
+    <!-- Strings related to Trip At A Glance Page -->
+    <string name="detailsLabel">Details</string>
+    <string name="setstopsLabel">Set/View Stops</string>
+    <string name="currentFriendsLabel">Current Friends</string>
+    <string name="addFriendLabel">Add Friend</string>
+    <string name="shoppingListLabel">Shopping List</string>
 </resources>

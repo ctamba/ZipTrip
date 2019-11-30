@@ -28,7 +28,8 @@ public class editProfile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
+        final Bundle extras = intent.getExtras();
+        final String username = extras.getString("username");
 
         final EditText nameField = (EditText) findViewById(R.id.nameField);
         final EditText emailField = (EditText) findViewById(R.id.emailField);
@@ -36,7 +37,7 @@ public class editProfile extends AppCompatActivity {
         final EditText passwordField = (EditText) findViewById(R.id.passwordField);
         final Button updateProfileBtn = (Button) findViewById(R.id.updateProfileBtn);
 
-        String profileName = extras.getString("profile_name");
+        final String profileName = extras.getString("profile_name");
         String email = extras.getString("email");
         final String phone = extras.getString("phone");
         String password = extras.getString("pass");
@@ -55,7 +56,7 @@ public class editProfile extends AppCompatActivity {
                 String lastname = name[1];
 
                 // Send data to database
-                Map<String, String> user = new HashMap<>();
+                Map<String, Object> user = new HashMap<>();
                 user.put("firstname", firstname);
                 user.put("lastname", lastname);
                 user.put("email", emailField.getText().toString());
@@ -63,8 +64,8 @@ public class editProfile extends AppCompatActivity {
                 user.put("phone", phoneField.getText().toString());
 
                 // Add a new document with a generated ID (can customize later)
-                db.collection("users").document(emailField.getText().toString())
-                        .set(user)
+                db.collection("users").document(username)
+                        .update(user)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

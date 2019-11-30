@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginResult.getSuccess() != null) {
                     // Send user to dashboard with extra
                     Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
-                    dashboardIntent.putExtra("email", usernameEditText.getText().toString());
+                    dashboardIntent.putExtra("username", usernameEditText.getText().toString());
                     startActivity(dashboardIntent);
                     finish();
                 }

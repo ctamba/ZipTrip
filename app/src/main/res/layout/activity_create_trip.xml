@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                 android:inputType="textPersonName" />
 
             <TextView
-                android:id="@+id/destinationTv"
+                android:id="@+id/destinationLabelTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#9C4CAF50"
@@ -54,19 +54,35 @@
                 android:text="@string/destination_label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-            <EditText
-                android:id="@+id/destinationInput"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/destination_label"
-                android:inputType="textPersonName" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/destinationInput"
+                    android:layout_width="259dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/destination_label"
+                    android:inputType="textPersonName" />
+
+                <Button
+                    android:id="@+id/searchBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onSearch"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="@android:string/search_go"
+                    android:textAllCaps="false" />
+            </LinearLayout>
 
             <fragment
                 android:id="@+id/map"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="91dp"
+                android:layout_height="274dp"
                 tools:context=".MapsActivity" />
 
             <TextView
@@ -86,13 +102,13 @@
 
                 <Button
                     android:id="@+id/startDateBtn"
-                    android:layout_width="68dp"
+                    android:layout_width="56dp"
                     android:layout_height="wrap_content"
                     android:background="@android:drawable/ic_menu_my_calendar" />
 
                 <EditText
                     android:id="@+id/startDateInput"
-                    android:layout_width="115dp"
+                    android:layout_width="154dp"
                     android:layout_height="wrap_content"
                     android:editable="false"
                     android:ems="10"
@@ -100,14 +116,14 @@
 
                 <Button
                     android:id="@+id/endDateBtn"
-                    android:layout_width="68dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:drawable/ic_menu_my_calendar" />
 
                 <EditText
                     android:id="@+id/endDateInput"
-                    android:layout_width="115dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:editable="false"
@@ -125,6 +141,35 @@
                 android:text="@string/add_friends_label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/searchFriendEt"
+                    android:layout_width="239dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Search for friend's username"
+                    android:inputType="textPersonName" />
+
+                <Button
+                    android:id="@+id/addFriendBtn"
+                    android:layout_width="136dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="@android:string/search_go"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/addFriendsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
             <Button
                 android:id="@+id/createTripBtn"
                 android:layout_width="150dp"
@@ -139,4 +184,4 @@
         </LinearLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

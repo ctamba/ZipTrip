@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ziptrip">
-
     <!-- Used for Google map and firebase services -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,10 +9,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -22,8 +23,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateTripActivity"></activity>
-        <activity android:name=".ProfilePage"></activity>
+        <activity android:name=".TripAtAGlanceActivity"></activity>
+        <activity android:name=".CreateTripActivity" />
+        <activity android:name=".ProfilePage" />
         <activity android:name=".editProfile" />
         <activity
             android:name=".DashboardActivity"
@@ -38,17 +40,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- API key and meta-data for google maps and firebase services -->
+        </activity> <!-- API key and meta-data for google maps and firebase services -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBTZI1QmjEl_nek9G76UB4RoMIvRiW2mLE"/>
-
+            android:value="AIzaSyBTZI1QmjEl_nek9G76UB4RoMIvRiW2mLE" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
     </application>
 
 </manifest>

@@ -1,9 +1,10 @@
 package com.example.ziptrip;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.ziptrip.recyclerviews.RetrieveTripItem;
+import com.example.ziptrip.recyclerviews.RetrieveTripsAdapter;
 import com.example.ziptrip.ui.login.LoginActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,23 +18,18 @@ import com.google.api.Distribution;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +39,18 @@ public class DashboardActivity extends AppCompatActivity{
     // Initializing database
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String TAG = "DashboardActivity";
-    LinearLayout tripListLayout;
-    View row;
 
     GoogleMap userMap;
     Intent dashIntent;
     private Toolbar menuBar;
     FloatingActionButton addTripBtn;
+
+    // Recycler View components
+    private RecyclerView tView;
+    private RecyclerView.Adapter tAdapter;
+    private RecyclerView.LayoutManager tManager;
+    ArrayList<RetrieveTripItem> tripList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +65,11 @@ public class DashboardActivity extends AppCompatActivity{
         addTripBtn = (FloatingActionButton)findViewById(R.id.addTripBtn);
         setSupportActionBar(menuBar);
 
-        // Retrieving layout
-        tripListLayout = (LinearLayout)findViewById(R.id.tripListLayout);
+        tView = findViewById(R.id.tripRecylerView);
+        tManager = new LinearLayoutManager(DashboardActivity.this);
 
         // Retrieving trips
-        retrieveTrips();
-
+        //retrieveTrips();
 
         FloatingActionButton fab = findViewById(R.id.addTripBtn);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +79,7 @@ public class DashboardActivity extends AppCompatActivity{
 //                        .setAction("Action", null).show();
                 // Create intent to add trip activity
                 Intent addTripIntent = new Intent(getApplicationContext(), CreateTripActivity.class);
-                addTripIntent.putExtra("email", dashIntent.getStringExtra("email"));
+                addTripIntent.putExtra("username", dashIntent.getStringExtra("username"));
                 startActivity(addTripIntent);
             }
         });
@@ -89,11 +89,13 @@ public class DashboardActivity extends AppCompatActivity{
     public void onResume() {
         super.onResume();
 
-        // Clear any currently inflated objects
-        if(row != null){
-            tripListLayout.removeAllViews();
+        if(tView != null){
+            // Clear all views and reload
+            tripList.clear();
+            tAdapter = new RetrieveTripsAdapter(tripList);
+            tView.setLayoutManager(tManager);
+            tView.setAdapter(tAdapter);
 
-            // Append with new db information
             retrieveTrips();
         }
     }
@@ -112,7 +114,7 @@ public class DashboardActivity extends AppCompatActivity{
 
         if(id == R.id.menu_profile){
             Intent profileIntent = new Intent(getApplicationContext(), ProfilePage.class);
-            profileIntent.putExtra("email", dashIntent.getStringExtra("email"));
+            profileIntent.putExtra("username", dashIntent.getStringExtra("username"));
             startActivity(profileIntent);
             return true;
         }
@@ -125,74 +127,61 @@ public class DashboardActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    public void onTripCardClick(View view){
+        TextView tripNameTv = (TextView)view.findViewById(R.id.tripNameTv);
+        String tripId = dashIntent.getStringExtra("username") + "-" + tripNameTv.getText().toString();
+        Intent tripAtAGlanceIntent = new Intent(getApplicationContext(), TripAtAGlanceActivity.class);
+        tripAtAGlanceIntent.putExtra("tripId", tripId);
+        startActivity(tripAtAGlanceIntent);
+    }
+
     public void retrieveTrips(){
-        // get the map of documents in the trip collection, store in a list
-        db.collection("trips").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        // get user trips from property
+        db.collection("users").document(dashIntent.getStringExtra("username"))
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    List<String> tripList = new ArrayList<>();
-
-                    // Get list of trips and add to list
-                    for(QueryDocumentSnapshot trip : task.getResult()){
-                        if(trip.getId().contains(dashIntent.getStringExtra("email"))) {
-                            tripList.add(trip.getId());
-                        }
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    List<String> userTrips = (List<String>)task.getResult().get("trips");
+                    for(String trip : userTrips){
+                        Log.i(TAG, "Found trip: " + trip);
+                        makeTripGUI(dashIntent.getStringExtra("username") + "-" + trip); // FIGURE OUT HOW TO FIX THIS
                     }
-
-                    // inflate trips if list is not empty
-                    int index = 0;
-                    if(!tripList.isEmpty()){
-                        for(String trip : tripList){
-                            makeTripGUI(trip, index);
-                            index++;
-                        }
-                    }
-                }
-                else{
-                    Log.d(TAG, "Error loading trips");
                 }
             }
         });
-
     }
 
-    public void makeTripGUI(final String tripId, int index){
-        int count = index;
+    public void makeTripGUI(final String tripId){
 
-        // Get view components and set the text
+        // Get single String view componants
         DocumentReference docRef = db.collection("trips").document(tripId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                String tripName = "";
+                String tripDestination = "";
+                List<String> friends;
+
                 if (task.isSuccessful()) {
-                    // Create a new row by inflating the new_trip_view layout file
-                    LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    tripName = task.getResult().get("tripname").toString();
+                    tripDestination = task.getResult().get("destination").toString();
+                    friends = (List<String>)task.getResult().get("friends");
 
-                    // View components
-                    row = li.inflate(R.layout.new_trip_view, null);
-                    TextView tripName = row.findViewById(R.id.tripNameLabel);
-                    TextView attendees = row.findViewById(R.id.attendeesTv);
-                    TextView destination = row.findViewById(R.id.destinationTv);
+                    RetrieveTripItem trip = new RetrieveTripItem(tripName, tripDestination, friends);
+                    tripList.add(trip);
 
-                    DocumentSnapshot tripInfo = task.getResult();
-                    if (tripInfo.exists()) {
-                        tripName.setText(tripInfo.getString("tripname"));
-                        destination.setText(tripInfo.getString("destination"));
-                        attendees.setText(tripInfo.getString("friends"));
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
+                    // Update the recycler view here by adding all items to adapter
+                    tAdapter = new RetrieveTripsAdapter(tripList);
 
-                    // Append view to the layout
-                    tripListLayout.addView(row);
+                    tView.setLayoutManager(tManager);
+                    tView.setAdapter(tAdapter);
 
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
-
     }
 
 //    @Override

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="5dp">
+
+        <LinearLayout
+            android:layout_width="229dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fullNameTV"
+                android:layout_width="match_parent"
+                android:layout_height="29dp"
+                android:text="Test Name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#444444" />
+
+            <TextView
+                android:id="@+id/usernameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Test Username"
+                android:textColor="#8BC34A" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/deleteFriendBtn"
+            android:layout_width="79dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#0AFFFFFF"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

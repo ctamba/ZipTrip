@@ -30,36 +30,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="#4CAF50"
         app:fabSize="normal"
         app:maxImageSize="75dp"
+        app:rippleColor="#4CAF50"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tripRecylerView"
         android:layout_width="match_parent"
-        android:layout_height="489dp"
-        android:layout_gravity="bottom"
-        android:foregroundGravity="top"
-        app:layout_anchorGravity="center_vertical">
-
-        <LinearLayout
-            android:id="@+id/tripListLayout"
-            android:layout_width="match_parent"
-            android:layout_height="800dp"
-            android:orientation="vertical">
-
-            <!-- <TextView
-                android:id="@+id/noTripTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
-                android:layout_marginTop="120dp"
-                android:gravity="center"
-                android:text="@string/no_trips"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textIsSelectable="false" />
-            -->
-
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="456dp"
+        android:layout_gravity="bottom|center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

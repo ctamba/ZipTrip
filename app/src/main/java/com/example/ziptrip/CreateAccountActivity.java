@@ -114,6 +114,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
                 dashboardIntent.putExtra("email", emailInput.getText().toString());
                 startActivity(dashboardIntent);
+                finish();
             }
         });
 
