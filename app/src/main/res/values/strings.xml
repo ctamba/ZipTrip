@@ -52,4 +52,11 @@
     <string name="currentFriendsLabel">Current Friends</string>
     <string name="addFriendLabel">Add Friend</string>
     <string name="shoppingListLabel">Shopping List</string>
+    <string name="recent_items_label">Recent items:</string>
+
+    <!-- Strings related to Shopping list page -->
+    <string name="input_item_label">Item name</string>
+    <string name="add_item_label">Add</string>
+    <string name="price_label">Price</string>
+    <string name="no_items_message">There are no items on the shopping list.</string>
 </resources>

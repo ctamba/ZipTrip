@@ -152,12 +152,22 @@
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
                         android:text="$0.00"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="#F44336" />
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
+                <TextView
+                    android:id="@+id/recentItemsTv"
                     android:layout_width="match_parent"
-                    android:layout_height="103dp" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/recent_items_label"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recentItemsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF" />
 
                 <ImageButton
                     android:id="@+id/expandListImgBtn"

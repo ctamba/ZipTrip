@@ -49,6 +49,7 @@ public class AddFriendActivity extends AppCompatActivity {
     EditText usernameInput;
     Button searchUsernameBtn, addFriendBtn;
     Intent friendIntent;
+    String tripId;
 
     String TAG = "Adding friend activity";
 
@@ -84,6 +85,7 @@ public class AddFriendActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot trip : task.getResult()){
                                 Log.i(TAG, "Tripid found: " + trip.getId());
+                                tripId = trip.getId();
                                 addUsersToTrip(trip.getId());
                             }
 
@@ -122,7 +124,7 @@ public class AddFriendActivity extends AppCompatActivity {
                             String fname = friendInfo.getString("firstname");
                             String lname = friendInfo.getString("lastname");
                             String username = friendInfo.getString("username");
-                            AddFriendItem friend = new AddFriendItem(username, fname, lname);
+                            AddFriendItem friend = new AddFriendItem(username, fname, lname, tripId);
                             friendList.add(friend);
 
                             // Update the recycler view here by adding all items to adapter

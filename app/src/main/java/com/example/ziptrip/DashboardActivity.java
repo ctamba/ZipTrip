@@ -149,6 +149,7 @@ public class DashboardActivity extends AppCompatActivity{
         String tripId = dashIntent.getStringExtra("username") + "-" + tripNameTv.getText().toString();
         Intent tripAtAGlanceIntent = new Intent(getApplicationContext(), TripAtAGlanceActivity.class);
         tripAtAGlanceIntent.putExtra("tripId", tripId);
+        tripAtAGlanceIntent.putExtra("username", dashIntent.getStringExtra("username"));
         startActivity(tripAtAGlanceIntent);
     }
 

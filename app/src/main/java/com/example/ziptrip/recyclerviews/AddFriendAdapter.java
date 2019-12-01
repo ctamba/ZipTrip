@@ -12,11 +12,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ziptrip.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.core.Tag;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddFriendAdapter extends RecyclerView.Adapter<AddFriendAdapter.AddFriendViewHolder> {
     private ArrayList<AddFriendItem> friendList;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public static class AddFriendViewHolder extends RecyclerView.ViewHolder{
         public TextView fullName, username;
@@ -45,7 +54,7 @@ public class AddFriendAdapter extends RecyclerView.Adapter<AddFriendAdapter.AddF
 
     @Override
     public void onBindViewHolder(@NonNull AddFriendViewHolder holder, int position) {
-        AddFriendItem currentItem = friendList.get(position);
+        final AddFriendItem currentItem = friendList.get(position);
 
         final AddFriendViewHolder tempHolder = holder;
 
@@ -56,8 +65,23 @@ public class AddFriendAdapter extends RecyclerView.Adapter<AddFriendAdapter.AddF
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // Delete from firebase here
+                // Get list from firebase, remove item from list, update document in firebase
+                Log.i("adapter", "trip you clicked on: " + currentItem.getTripId());
+                db.collection("trips").document(currentItem.getTripId())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            List<String> currentFriendList = (List<String>)task.getResult().get("friends");
+                            if(currentFriendList.contains(currentItem.getUsername())){
+                                currentFriendList.remove(currentFriendList.indexOf(currentItem.getUsername()));
+                            }
+                            // Update document
+                            updateFriends(currentItem.getTripId(), currentFriendList);
+                        }
+                    }
+                });
 
                 // Delete from view
                 int newPosition = tempHolder.getAdapterPosition();
@@ -71,5 +95,21 @@ public class AddFriendAdapter extends RecyclerView.Adapter<AddFriendAdapter.AddF
     @Override
     public int getItemCount() {
         return friendList.size();
+    }
+
+    private void updateFriends(String tripId, List<String> updatedFriendList){
+        db.collection("trips").document(tripId).update("friends", updatedFriendList)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("Friend adapter", "Friends was successfully updated");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Friend adapter", "Something went wrong when writing" + e);
+                    }
+                });
     }
 }

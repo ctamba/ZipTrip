@@ -117,7 +117,7 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
             }
         });
 
-        // When create trip btn clicked, send to db -- DOES NOT WORK WHEN ADDING ARRAYS
+        // When create trip btn clicked, send to db
         createTripBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -135,7 +135,7 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
                 trip.put("drivers", drivers);
 
                 // Concatenate unique tripID
-                String tripId = tripIntent.getStringExtra("username") + "-" + tripNameInput.getText().toString();
+                final String tripId = tripIntent.getStringExtra("username") + "-" + tripNameInput.getText().toString();
 
                 // Add a new document with a generated ID (can customize later)
                 db.collection("trips").document(tripId)
@@ -152,9 +152,6 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
                                 Log.w(TAG, "Error writing document", e);
                             }
                         });
-
-                // Add shopping list collection to trip -- LOL THIS DOESNT WORK BUT DOES NOT THROW ERROR
-                db.collection("trips").document(tripId).collection("shoppinglist");
 
                 // Add trip to the "trips" field of each friend that was added
                 for(String friend : friends){
@@ -238,7 +235,8 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
                             String fname = friendInfo.getString("firstname");
                             String lname = friendInfo.getString("lastname");
                             String username = friendInfo.getString("username");
-                            AddFriendItem friend = new AddFriendItem(username, fname, lname);
+                            String tripId = tripIntent.getStringExtra("username") + "-" + tripNameInput.getText().toString();
+                            AddFriendItem friend = new AddFriendItem(username, fname, lname, tripId);
                             friendList.add(friend);
 
                             // Update the recycler view here by adding all items to adapter ERROR HERE

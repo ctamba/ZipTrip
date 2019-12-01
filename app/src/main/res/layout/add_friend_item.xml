@@ -10,7 +10,7 @@
         android:paddingBottom="5dp">
 
         <LinearLayout
-            android:layout_width="229dp"
+            android:layout_width="175dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
