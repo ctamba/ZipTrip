@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SetReminderActivity">
+
+    <TextView
+        android:id="@+id/setReminderTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/set_reminder_label"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/setReminderdateEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/set_date_label"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/setReminderTimeEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/set_time_label"
+            android:inputType="time" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/createReminderBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/set_reminder_label"
+        android:textAllCaps="false" />
+
+</LinearLayout>

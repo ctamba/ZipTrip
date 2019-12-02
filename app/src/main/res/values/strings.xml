@@ -24,6 +24,7 @@
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="current_trips">Current Trips</string>
     <string name="attendees_label">Attendees</string>
+    <string name="default_notification_channel_id">alarm_channel_id_01</string>
 
     <!-- Strings for creating a trip -->
     <string name="create_trip_label">Create a Trip</string>
@@ -53,10 +54,25 @@
     <string name="addFriendLabel">Add Friend</string>
     <string name="shoppingListLabel">Shopping List</string>
     <string name="recent_items_label">Recent items:</string>
+    <string name="set_reminder_label">Set Reminder</string>
+    <string name="current_roles_label">Current Roles</string>
+    <string name="edit_roles">Edit Roles</string>
+    <string name="leader_label">Leader:</string>
+    <string name="drivers_label">Drivers:</string>
 
     <!-- Strings related to Shopping list page -->
     <string name="input_item_label">Item name</string>
     <string name="add_item_label">Add</string>
     <string name="price_label">Price</string>
     <string name="no_items_message">There are no items on the shopping list.</string>
+
+    <!-- Strings related to reminder -->
+    <string name="set_time_label">Set time</string>
+
+    <!-- Strings related to edit roles -->
+    <string name="change_leader_label">Change Leader</string>
+    <string name="add_driver_label">Add Driver</string>
+    <string name="remove_driver_label">Remove Driver</string>
+    <string name="username_input_label">Enter username</string>
+
 </resources>

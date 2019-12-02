@@ -51,7 +51,7 @@
                 <LinearLayout
                     android:id="@+id/buttonLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="51dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <Button
@@ -69,7 +69,64 @@
                         android:layout_weight="1"
                         android:text="@string/setstopsLabel"
                         android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/setReminderBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/set_reminder_label"
+                        android:textAllCaps="false" />
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rolesTv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="@drawable/customborder"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/currentRolesTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/current_roles_label"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:id="@+id/leaderTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/leader_label"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <TextView
+                    android:id="@+id/leaderUserTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="user" />
+
+                <TextView
+                    android:id="@+id/driverTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/drivers_label"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <TextView
+                    android:id="@+id/driverUserTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="user" />
+
+                <Button
+                    android:id="@+id/editRolesBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edit_roles"
+                    android:textAllCaps="false" />
             </LinearLayout>
 
             <LinearLayout

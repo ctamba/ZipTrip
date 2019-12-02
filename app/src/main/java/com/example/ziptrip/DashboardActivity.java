@@ -6,15 +6,10 @@ import android.os.Bundle;
 import com.example.ziptrip.recyclerviews.RetrieveTripItem;
 import com.example.ziptrip.recyclerviews.RetrieveTripsAdapter;
 import com.example.ziptrip.ui.login.LoginActivity;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.api.Distribution;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -35,6 +30,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class DashboardActivity extends AppCompatActivity{
@@ -53,6 +49,11 @@ public class DashboardActivity extends AppCompatActivity{
     private RecyclerView.Adapter tAdapter;
     private RecyclerView.LayoutManager tManager;
     ArrayList<RetrieveTripItem> tripList = new ArrayList<>();
+
+    // For notification
+    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
+    private final static String default_notification_channel_id = "default" ;
+    final Calendar myCalendar = Calendar. getInstance () ;
 
 
     @Override
@@ -101,21 +102,6 @@ public class DashboardActivity extends AppCompatActivity{
             }
         });
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//        if(tView != null){
-//            // Clear all views and reload
-//            tripList.clear();
-//            tAdapter = new RetrieveTripsAdapter(tripList);
-//            tView.setLayoutManager(tManager);
-//            tView.setAdapter(tAdapter);
-//
-//            retrieveTrips();
-//        }
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -201,15 +187,5 @@ public class DashboardActivity extends AppCompatActivity{
             }
         });
     }
-
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        userMap = googleMap;
-//
-//        // Add a marker in current location and move the camera.
-//        LatLng currentLocation = new LatLng(33.937842, -84.519933);
-//        userMap.addMarker(new MarkerOptions().position(currentLocation).title("Marker in Sydney"));
-//        userMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
-//    }
 
 }

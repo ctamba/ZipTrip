@@ -63,7 +63,7 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
     // UI Components
     String TAG = "TripCreate_Map";
     List<String> friends = new ArrayList<>(); // contains usernames
-    List<String> drivers;
+    List<String> drivers = new ArrayList<>(); // contains usernames, initially empty
     List<String> currentTrips; // contains trip names, NOT TRIPIDS
 
     GoogleMap userMap;

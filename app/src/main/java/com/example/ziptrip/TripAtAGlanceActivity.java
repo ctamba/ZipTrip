@@ -44,6 +44,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -69,13 +70,15 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
     LatLng currentLocation, destinationLocation;
 
     // Activity componants
-    TextView tripDestination, friendList, tripName, billTotalTv;
-    Button tripDetailsBtn, tripStopsBtn;
+    TextView tripDestination, friendList, tripName, billTotalTv, leaderTv, driverTv;
+    Button tripDetailsBtn, tripStopsBtn, reminderBtn, editRolesBtn;
     ImageButton addFriendBtn, shoppingListBtn;
 
     // Retrieving list of friends
     StringBuilder fullNameList = new StringBuilder();
+    StringBuilder driverList = new StringBuilder();
     List<String> friends;
+    List<String> drivers;
 
     // Recycler view components
     private RecyclerView sView;
@@ -96,8 +99,12 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
         friendList = (TextView)findViewById(R.id.friendListTv);
         tripName = (TextView)findViewById(R.id.tripNameGlanceLabel);
         billTotalTv = (TextView)findViewById(R.id.billTotalTv);
+        leaderTv = (TextView)findViewById(R.id.leaderUserTv);
+        driverTv = (TextView)findViewById(R.id.driverUserTv);
         tripDetailsBtn = (Button)findViewById(R.id.detailsBtn);
         tripStopsBtn = (Button)findViewById(R.id.viewStopsBtn);
+        reminderBtn = (Button)findViewById(R.id.setReminderBtn);
+        editRolesBtn = (Button)findViewById(R.id.editRolesBtn);
         addFriendBtn = (ImageButton)findViewById(R.id.addFriendImgBtn);
         shoppingListBtn = (ImageButton)findViewById(R.id.expandListImgBtn);
         sView = findViewById(R.id.recentItemsRecyclerView);
@@ -116,6 +123,7 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
                 Intent friendIntent = new Intent(getApplicationContext(), AddFriendActivity.class);
                 friendIntent.putExtra("username", glanceIntent.getStringExtra("username"));
                 friendIntent.putExtra("tripname", tripName.getText().toString());
+                friendIntent.putExtra("tripId", glanceIntent.getStringExtra("tripId"));
                 startActivity(friendIntent);
             }
         });
@@ -131,6 +139,27 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
             }
         });
 
+        reminderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create intent to send to reminder activity
+                Intent reminderIntent = new Intent(getApplicationContext(), SetReminderActivity.class);
+                reminderIntent.putExtra("tripname", tripName.getText().toString());
+                startActivity(reminderIntent);
+            }
+        });
+
+        editRolesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create intent to send to edit roles activity
+                Intent roleIntent = new Intent(getApplicationContext(), EditRolesActivity.class);
+                roleIntent.putExtra("tripId", glanceIntent.getStringExtra("tripId"));
+                roleIntent.putExtra("username", glanceIntent.getStringExtra("username"));
+                startActivity(roleIntent);
+            }
+        });
+
         // Load data if any data changes
         DocumentReference tripRef = db.collection("trips").document(glanceIntent.getStringExtra("tripId"));
         tripRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -139,8 +168,11 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
                 if(documentSnapshot != null && documentSnapshot.exists()){
                     Log.i(TAG, "In the listener method");
                     friendList.setText("");
-                    StringBuilder emptySb = new StringBuilder();
-                    fullNameList = emptySb;
+                    driverTv.setText("");
+                    StringBuilder emptyName = new StringBuilder();
+                    StringBuilder emptyDrivers = new StringBuilder();
+                    fullNameList = emptyName;
+                    driverList = emptyDrivers;
                     loadData();
                 }
             }
@@ -219,12 +251,60 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
                     friends = (List<String>)task.getResult().get("friends");
                     Log.i(TAG, "Friend list contents: " + friends);
                     loadFriends();
+                    loadRoles();
                 }
                 else{
                     Log.e(TAG, "Error retrieving firebase trip data.");
                 }
             }
         });
+    }
+
+    private void loadRoles(){
+        // Get role info from document using trip id from intent
+        db.collection("trips").document(glanceIntent.getStringExtra("tripId"))
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful() && task.getResult() != null){
+                    DocumentSnapshot trip = task.getResult();
+
+                    // Set textview info
+                    getLeaderName(trip.get("leader").toString());
+                    // Get drivers and append info
+                    drivers = (List<String>)trip.get("drivers");
+                    getDriverNames();
+
+                }
+            }
+        });
+    }
+
+    private void getLeaderName(String username){
+        db.collection("users").document(username).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful() && task.getResult() != null){
+                            leaderTv.setText(task.getResult().get("firstname") + " " + task.getResult().get("lastname"));
+                        }
+                    }
+                });
+    }
+
+    private void getDriverNames(){
+        for(String driver : drivers){
+            db.collection("users").document(driver).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful() && task.getResult() != null){
+                                driverList.append(task.getResult().get("firstname") + " " + task.getResult().get("lastname") + "\n");
+                            }
+                            driverTv.setText(driverList.toString());
+                        }
+                    });
+        }
     }
 
     private void loadFriends(){
@@ -257,7 +337,6 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot item : task.getResult()){
-                        Log.i(TAG, "Item found: " + item.getId());
                         String itemName = item.getId();
                         getRecentItemInfo(itemName);
                     }
@@ -308,42 +387,6 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
             }
         });
     }
-
-//    /* Stuff for retrieving trip data and paths */
-//    public void onSearch(View view) {
-//        String destinationLocation = destinationInput.getText().toString();
-//        List<Address> addressList = null;
-//
-//        // Clear if there is currently a marker on map
-//        if(destinationMarker != null){
-//            destinationMarker.remove();
-//        }
-//
-//        if(destinationLocation != null || !destinationLocation.equals("")){
-//            Geocoder geocoder = new Geocoder(this);
-//            try {
-//                addressList = geocoder.getFromLocationName(destinationLocation, 5);
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            Address address = addressList.get(0);
-//            LatLng coordinates = new LatLng(address.getLatitude(), address.getLongitude());
-//
-//            // Save the marker
-//            MarkerOptions destinationOptions = new MarkerOptions().position(coordinates).title("Destination");
-//            destinationMarker = userMap.addMarker(destinationOptions);
-//
-//            //userMap.addMarker(new MarkerOptions().position(coordinates).title("Marker"));
-//            userMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 10));
-//
-//            // Code to display driving path, get url first, then get path
-//            String url = getUrl(currentLocation, coordinates);
-//            CreateTripActivity.TaskRequestDirections taskRequestDirections = new CreateTripActivity.TaskRequestDirections();
-//            taskRequestDirections.execute(url);
-//        }
-//    }
 
     private String getUrl(LatLng origin, LatLng dest){
         String originStr = "origin=" + origin.latitude + "," + origin.longitude;
