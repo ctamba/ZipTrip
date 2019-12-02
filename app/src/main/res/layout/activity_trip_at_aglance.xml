@@ -41,10 +41,12 @@
                     android:text="@string/destination_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-                <com.google.android.gms.maps.MapView
-                    android:id="@+id/mapView"
+                <fragment
+                    android:id="@+id/glanceMap"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="107dp" />
+                    android:layout_height="274dp"
+                    tools:context=".MapsActivity" />
 
                 <LinearLayout
                     android:id="@+id/buttonLayout"
