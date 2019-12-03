@@ -19,7 +19,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CreateAccountActivity extends AppCompatActivity {
@@ -27,7 +29,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     // Initialize database
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    EditText fNameInput, lNameInput, emailInput, passwdInput, validatePasswdInput, phoneInput;
+    EditText fNameInput, lNameInput, emailInput, passwdInput, validatePasswdInput, phoneInput, usernameInput;
     TableRow verifyEmail, verifyPassword;
     Button createAccountBtn;
     String TAG = "CreateAccount";
@@ -43,9 +45,20 @@ public class CreateAccountActivity extends AppCompatActivity {
         passwdInput = (EditText)findViewById(R.id.passwdInput);
         validatePasswdInput = (EditText)findViewById(R.id.checkPasswdInput);
         phoneInput = (EditText)findViewById(R.id.phoneInput);
+        usernameInput = (EditText)findViewById(R.id.usernameInput);
         verifyPassword = (TableRow)findViewById(R.id.verifyPasswdRow);
         verifyEmail = (TableRow)findViewById(R.id.verifyEmailRow);
         createAccountBtn = (Button)findViewById(R.id.createAccountBtn);
+        createAccountBtn.setEnabled(false);
+
+        // Add text watchers
+        fNameInput.addTextChangedListener(watcher);
+        lNameInput.addTextChangedListener(watcher);
+        emailInput.addTextChangedListener(watcher);
+        passwdInput.addTextChangedListener(watcher);
+        validatePasswdInput.addTextChangedListener(watcher);
+        phoneInput.addTextChangedListener(watcher);
+        usernameInput.addTextChangedListener(watcher);
 
         // Formatting
         PhoneNumberUtils.formatNumber(phoneInput.getText().toString());
@@ -87,16 +100,21 @@ public class CreateAccountActivity extends AppCompatActivity {
         createAccountBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                // Create empty array to append to trips
+                List<String> emptyTrips = new ArrayList<>();
+
                 // Send data to database
-                Map<String, String> user = new HashMap<>();
+                Map<String, Object> user = new HashMap<>();
                 user.put("firstname", fNameInput.getText().toString());
                 user.put("lastname", lNameInput.getText().toString());
                 user.put("email", emailInput.getText().toString());
                 user.put("password", passwdInput.getText().toString());
                 user.put("phone", phoneInput.getText().toString());
+                user.put("username", usernameInput.getText().toString());
+                user.put("trips", emptyTrips);
 
                 // Add a new document with a generated ID (can customize later)
-                db.collection("users").document(emailInput.getText().toString())
+                db.collection("users").document(usernameInput.getText().toString())
                         .set(user)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -112,7 +130,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         });
 
                 Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
-                dashboardIntent.putExtra("email", emailInput.getText().toString());
+                dashboardIntent.putExtra("username", usernameInput.getText().toString());
                 startActivity(dashboardIntent);
                 finish();
             }
@@ -156,4 +174,24 @@ public class CreateAccountActivity extends AppCompatActivity {
             return false;
         }
     }
+
+    private final TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        { }
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {}
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (fNameInput.getText().toString().length() == 0 || lNameInput.getText().toString().length() == 0 ||
+                    emailInput.getText().toString().length() == 0 || passwdInput.getText().toString().length() == 0 ||
+                    validatePasswdInput.toString().trim().length() == 0 || phoneInput.getText().toString().length() == 0 ||
+                    usernameInput.getText().toString().length() == 0) {
+                createAccountBtn.setEnabled(false);
+            } else {
+                createAccountBtn.setEnabled(true);
+            }
+        }
+    };
 }

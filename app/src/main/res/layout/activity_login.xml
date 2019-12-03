@@ -16,7 +16,7 @@
         android:layout_width="335dp"
         android:layout_height="281dp"
         android:layout_marginTop="100dp"
-        android:background="#3B645D5D"
+        android:background="@drawable/customborder"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,9 @@
 
             android:hint="@string/prompt_email"
             android:inputType="textEmailAddress"
-            android:selectAllOnFocus="true" />
+            android:selectAllOnFocus="true"
+            android:textColorHighlight="#4CAF50"
+            android:textColorLink="#4CAF50" />
 
         <EditText
             android:id="@+id/password"
@@ -47,7 +49,9 @@
             android:imeActionLabel="@string/action_sign_in_short"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
-            android:selectAllOnFocus="true" />
+            android:selectAllOnFocus="true"
+            android:textColorHighlight="#4CAF50"
+            android:textColorLink="#4CAF50" />
 
         <Button
             android:id="@+id/login"
@@ -88,6 +92,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Welcome to ZipTrip!"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"

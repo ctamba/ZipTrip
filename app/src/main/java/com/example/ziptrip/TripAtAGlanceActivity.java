@@ -64,6 +64,7 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
 
     // Retrieve intent
     Intent glanceIntent;
+    boolean hasPermissions = false;
 
     // Map components
     GoogleMap userMap;
@@ -119,12 +120,17 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
         addFriendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Create intent to pass username to next activity
-                Intent friendIntent = new Intent(getApplicationContext(), AddFriendActivity.class);
-                friendIntent.putExtra("username", glanceIntent.getStringExtra("username"));
-                friendIntent.putExtra("tripname", tripName.getText().toString());
-                friendIntent.putExtra("tripId", glanceIntent.getStringExtra("tripId"));
-                startActivity(friendIntent);
+                if(hasPermissions){
+                    // Create intent to pass username to next activity
+                    Intent friendIntent = new Intent(getApplicationContext(), AddFriendActivity.class);
+                    friendIntent.putExtra("username", glanceIntent.getStringExtra("username"));
+                    friendIntent.putExtra("tripname", tripName.getText().toString());
+                    friendIntent.putExtra("tripId", glanceIntent.getStringExtra("tripId"));
+                    startActivity(friendIntent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "You do not have permission to edit this information", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -152,11 +158,17 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
         editRolesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Create intent to send to edit roles activity
-                Intent roleIntent = new Intent(getApplicationContext(), EditRolesActivity.class);
-                roleIntent.putExtra("tripId", glanceIntent.getStringExtra("tripId"));
-                roleIntent.putExtra("username", glanceIntent.getStringExtra("username"));
-                startActivity(roleIntent);
+                // Check user permissions
+                if(hasPermissions){
+                    // Create intent to send to edit roles activity
+                    Intent roleIntent = new Intent(getApplicationContext(), EditRolesActivity.class);
+                    roleIntent.putExtra("tripId", glanceIntent.getStringExtra("tripId"));
+                    roleIntent.putExtra("username", glanceIntent.getStringExtra("username"));
+                    startActivity(roleIntent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "You do not have permission to edit this information", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -174,6 +186,9 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
                     fullNameList = emptyName;
                     driverList = emptyDrivers;
                     loadData();
+
+                    // Check permissions
+                    checkPermissions();
                 }
             }
         });
@@ -507,5 +522,25 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
                 Toast.makeText(TripAtAGlanceActivity.this, "Directions were unable to be found", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void checkPermissions(){
+        // retrieve trip information for field "leader"
+        db.collection("trips").document(glanceIntent.getStringExtra("tripId"))
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    if(task.getResult().get("leader").toString().equals(glanceIntent.getStringExtra("username"))){
+                        Log.i(TAG, "User has admin permissions");
+                        hasPermissions = true;
+                    }
+                    else{
+                        Log.i(TAG, "User does not have admin permissions");
+                        hasPermissions = false;
+                    }
+                }
+            }
+        });
     }
 }

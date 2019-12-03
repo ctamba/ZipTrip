@@ -100,26 +100,27 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/startDateBtn"
-                    android:layout_width="56dp"
-                    android:layout_height="wrap_content"
-                    android:background="@android:drawable/ic_menu_my_calendar" />
+                <TextView
+                    android:id="@+id/startDateTv"
+                    android:layout_width="121dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/start_date_label" />
 
                 <EditText
                     android:id="@+id/startDateInput"
-                    android:layout_width="154dp"
+                    android:layout_width="99dp"
                     android:layout_height="wrap_content"
                     android:editable="false"
                     android:ems="10"
                     android:inputType="date" />
 
-                <Button
-                    android:id="@+id/endDateBtn"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/endDateTv"
+                    android:layout_width="126dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@android:drawable/ic_menu_my_calendar" />
+                    android:text="@string/end_date_label" />
 
                 <EditText
                     android:id="@+id/endDateInput"

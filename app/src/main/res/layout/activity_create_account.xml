@@ -31,7 +31,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:layout_margin="5dp"
+                android:background="@drawable/customborder"
+                android:orientation="vertical">
 
                 <TableLayout
                     android:id="@+id/formLayout"
@@ -99,6 +101,31 @@
                             android:hint="@string/last_name"
                             android:inputType="textPersonName"
                             android:textColor="#99000000" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/usernameRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/usernameLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/username_label"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <EditText
+                            android:id="@+id/usernameInput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/username_label"
+                            android:inputType="textPersonName" />
                     </TableRow>
 
                     <TableRow

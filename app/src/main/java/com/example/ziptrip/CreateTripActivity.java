@@ -12,6 +12,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -67,7 +69,7 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
     List<String> currentTrips; // contains trip names, NOT TRIPIDS
 
     GoogleMap userMap;
-    Button createTripBtn, setStartDateBtn, setEndDateBtn, addFriendBtn;
+    Button createTripBtn, addFriendBtn;
     EditText startDateInput, endDateInput, tripNameInput, destinationInput, searchFriendInput;
     LatLng currentLocation;
     Marker destinationMarker;
@@ -89,14 +91,20 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
         setContentView(R.layout.activity_create_trip);
 
         createTripBtn = (Button)findViewById(R.id.createTripBtn);
-        setStartDateBtn = (Button)findViewById(R.id.startDateBtn);
-        setEndDateBtn = (Button)findViewById(R.id.endDateBtn);
+        createTripBtn.setEnabled(false);
         addFriendBtn = (Button)findViewById(R.id.addFriendBtn);
         startDateInput = (EditText)findViewById(R.id.startDateInput);
         endDateInput = (EditText)findViewById(R.id.endDateInput);
         tripNameInput = (EditText)findViewById(R.id.tripNameInput);
         destinationInput = (EditText)findViewById(R.id.destinationInput);
         searchFriendInput = (EditText)findViewById(R.id.searchFriendEt);
+
+        // Setting text changed listeners
+        startDateInput.addTextChangedListener(watcher);
+        endDateInput.addTextChangedListener(watcher);
+        tripNameInput.addTextChangedListener(watcher);
+        destinationInput.addTextChangedListener(watcher);
+        searchFriendInput.addTextChangedListener(watcher);
 
         tripIntent = getIntent();
 
@@ -108,7 +116,9 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
         addFriendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFriend(searchFriendInput.getText().toString());
+                if(searchFriendInput.getText().toString() != null && !searchFriendInput.getText().toString().equals("")){
+                    addFriend(searchFriendInput.getText().toString());
+                }
             }
         });
 
@@ -409,5 +419,24 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
             }
         }
     }
+
+    private final TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        { }
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {}
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (startDateInput.getText().toString().length() == 0 || endDateInput.getText().toString().length() == 0 ||
+                    tripNameInput.getText().toString().length() == 0 || destinationInput.getText().toString().length() == 0 ||
+                    searchFriendInput.toString().trim().length() == 0) {
+                createTripBtn.setEnabled(false);
+            } else {
+                createTripBtn.setEnabled(true);
+            }
+        }
+    };
 }
 

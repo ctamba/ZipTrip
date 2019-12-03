@@ -35,7 +35,6 @@ public class EditRolesActivity extends AppCompatActivity {
     StringBuilder driverList = new StringBuilder();
     List<String> drivers;
     Intent roleIntent;
-    boolean hasPermissions = false;
 
     // Activity components
     EditText changeLeaderInput, changeDriverInput;
@@ -61,11 +60,9 @@ public class EditRolesActivity extends AppCompatActivity {
         changeLeaderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // check to see if the user has permissions
-                if(hasPermissions == true){
-                    // change driver in database if user exists
-                    db.collection("users").document(changeLeaderInput.getText().toString())
-                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                // change driver in database if user exists
+                db.collection("users").document(changeLeaderInput.getText().toString())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if(task.isSuccessful() && task.getResult() != null){
@@ -74,42 +71,32 @@ public class EditRolesActivity extends AppCompatActivity {
                             }
                         }
                     });
-                }
-                else{
-                    Toast.makeText(EditRolesActivity.this, "You do not have permissions to change this field!", Toast.LENGTH_SHORT);
-                }
             }
         });
 
         addDriverBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hasPermissions == true){
-                    // check to see if inputted user exists, if so, update db
-                    db.collection("users").document(changeDriverInput.getText().toString())
-                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(task.isSuccessful() && task.getResult() != null){
-                                // user exists, add driver to driver list and append
-                                addDriver(changeDriverInput.getText().toString());
+                // check to see if inputted user exists, if so, update db
+                db.collection("users").document(changeDriverInput.getText().toString())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful() && task.getResult() != null){
+                                    // user exists, add driver to driver list and append
+                                    addDriver(changeDriverInput.getText().toString());
+                                }
                             }
-                        }
-                    });
-                }
-                else{
-                    Toast.makeText(EditRolesActivity.this, "You do not have permissions to change this field!", Toast.LENGTH_SHORT);
-                }
+                        });
             }
         });
 
         removeDriverBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hasPermissions == true){
-                    // check to see if inputted user exists, if so, update db
-                    db.collection("users").document(changeDriverInput.getText().toString())
-                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                // check to see if inputted user exists, if so, update db
+                db.collection("users").document(changeDriverInput.getText().toString())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if(task.isSuccessful() && task.getResult() != null){
@@ -118,10 +105,6 @@ public class EditRolesActivity extends AppCompatActivity {
                             }
                         }
                     });
-                }
-                else{
-                    Toast.makeText(EditRolesActivity.this, "You do not have permissions to change this field!", Toast.LENGTH_SHORT);
-                }
             }
         });
 
@@ -132,8 +115,6 @@ public class EditRolesActivity extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if(documentSnapshot != null && documentSnapshot.exists()){
                     Log.i(TAG, "In the listener method");
-                    // Get role permissions
-                    checkPermissions();
 
                     currentDriversTv.setText("");
                     StringBuilder emptyDrivers = new StringBuilder();
@@ -191,22 +172,6 @@ public class EditRolesActivity extends AppCompatActivity {
                         }
                     });
         }
-    }
-
-    private void checkPermissions(){
-        // retrieve trip information for field "leader"
-        db.collection("trips").document(roleIntent.getStringExtra("tripId"))
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    if(task.getResult().get("leader").toString().equals(roleIntent.getStringExtra("username"))){
-                        Log.i(TAG, "user has admin permissions");
-                        hasPermissions = true;
-                    }
-                }
-            }
-        });
     }
 
     public void updateLeader(){

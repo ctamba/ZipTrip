@@ -35,6 +35,9 @@
     <string name="no_trips">No trips yet! Click the + button to add one!</string>
     <string name="create_trip">Create Trip</string>
     <string name="add_friend_edittext">Search for friend\'s username</string>
+    <string name="username_label">Username</string>
+    <string name="start_date_label">Start date</string>
+    <string name="end_date_label">End date</string>
 
     <!--- Strings related to Edit Profile -->
     <string name="editProfileLabel">Edit Profile</string>

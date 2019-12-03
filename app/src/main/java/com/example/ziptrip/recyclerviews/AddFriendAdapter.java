@@ -72,7 +72,7 @@ public class AddFriendAdapter extends RecyclerView.Adapter<AddFriendAdapter.AddF
                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
+                        if(task.isSuccessful() && task.getResult() != null){
                             List<String> currentFriendList = (List<String>)task.getResult().get("friends");
                             if(currentFriendList.contains(currentItem.getUsername())){
                                 currentFriendList.remove(currentFriendList.indexOf(currentItem.getUsername()));

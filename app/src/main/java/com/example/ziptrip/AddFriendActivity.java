@@ -1,6 +1,7 @@
 package com.example.ziptrip;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +22,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -45,11 +48,10 @@ public class AddFriendActivity extends AppCompatActivity {
     List<String> currentTrips;
     List<String> currentFriends;
     List<String> friends = new ArrayList<>(); // list of friend usernames
-    boolean hasPermissions = false;
 
     // Activity components
     EditText usernameInput;
-    Button searchUsernameBtn, addFriendBtn;
+    Button searchUsernameBtn;
     Intent friendIntent;
     String tripId;
 
@@ -62,57 +64,31 @@ public class AddFriendActivity extends AppCompatActivity {
 
         usernameInput = (EditText)findViewById(R.id.usernameEt);
         searchUsernameBtn = (Button)findViewById(R.id.searchUserBtn);
-        addFriendBtn = (Button)findViewById(R.id.addFriendsBtn);
         friendIntent = getIntent();
 
         rView = findViewById(R.id.addFriendsRv);
         rManager = new LinearLayoutManager(AddFriendActivity.this);
 
-        // Get user permissions
-        checkPermissions();
-
         searchUsernameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hasPermissions){
-                    addFriend(usernameInput.getText().toString());
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "You do not have permissions to add friends!", Toast.LENGTH_SHORT);
-                }
+                addFriend(usernameInput.getText().toString());
             }
         });
 
-        addFriendBtn.setOnClickListener(new View.OnClickListener() {
+        DocumentReference tripRef = db.collection("trips").document(friendIntent.getStringExtra("tripId"));
+        tripRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View view) {
-                if(hasPermissions){
-                    // Add friends to "friends" property on trip
-                    CollectionReference tripRef = db.collection("trips");
-                    Query tripQuery = tripRef.whereEqualTo("tripname", friendIntent.getStringExtra("tripname"));
-                    tripQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(QueryDocumentSnapshot trip : task.getResult()){
-                                    Log.i(TAG, "Tripid found: " + trip.getId());
-                                    tripId = trip.getId();
-                                    addUsersToTrip(trip.getId());
-                                }
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if(documentSnapshot != null && documentSnapshot.exists()){
+                    Log.i(TAG, "In the listener method");
+                    friendList.clear();
+                    friends.clear();
+                    rAdapter = new AddFriendAdapter(friendList);
 
-                                // Add tripname to each user
-                                for(String friend: friends){
-                                    addTripsToUsers(friend, friendIntent.getStringExtra("tripname"));
-                                }
-                            }
-                        }
-                    });
-
-                    // Exit activity
-                    AddFriendActivity.this.finish();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "You do not have permissions to add friends!", Toast.LENGTH_SHORT);
+                    rView.setLayoutManager(rManager);
+                    rView.setAdapter(rAdapter);
+                    loadData();
                 }
             }
         });
@@ -125,27 +101,44 @@ public class AddFriendActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful() && task.getResult() != null) {
+                    friends = (List<String>)task.getResult().get("friends");
+
+                    // for each friend, append a card to the recycler view
+                    for(String friend : friends){
+                        loadFriends(friend);
+                    }
+
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    private void loadFriends(String username){
+        final DocumentReference friend = db.collection("users").document(username);
+
+        // Query to see if friend exists
+        friend.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful() && task.getResult() != null) {
                     DocumentSnapshot friendInfo = task.getResult();
                     if (friendInfo.exists()) {
-                        Log.i("Adding friend", "Friend has been found");
+                        Log.i("Adding friend", "Updating friend to recycler view");
+                        // Get first and last name to display on the recycler view card
+                        String fname = friendInfo.getString("firstname");
+                        String lname = friendInfo.getString("lastname");
+                        String username = friendInfo.getString("username");
+                        AddFriendItem friend = new AddFriendItem(username, fname, lname, friendIntent.getStringExtra("tripId"));
+                        friendList.add(friend);
 
-                        // Runs if username exists. Add friend to array list
-                        if (!friends.contains(friendInfo.getString("username"))) {
-                            friends.add(friendInfo.getString("username"));
+                        // Update the recycler view here by adding all items to adapter
+                        rAdapter = new AddFriendAdapter(friendList);
 
-                            // Get first and last name to display on the recycler view card
-                            String fname = friendInfo.getString("firstname");
-                            String lname = friendInfo.getString("lastname");
-                            String username = friendInfo.getString("username");
-                            AddFriendItem friend = new AddFriendItem(username, fname, lname, tripId);
-                            friendList.add(friend);
+                        rView.setLayoutManager(rManager);
+                        rView.setAdapter(rAdapter);
 
-                            // Update the recycler view here by adding all items to adapter
-                            rAdapter = new AddFriendAdapter(friendList);
-
-                            rView.setLayoutManager(rManager);
-                            rView.setAdapter(rAdapter);
-                        }
                     } else {
                         Log.d(TAG, "No matching document/friend found");
                     }
@@ -176,7 +169,7 @@ public class AddFriendActivity extends AppCompatActivity {
                             String fname = friendInfo.getString("firstname");
                             String lname = friendInfo.getString("lastname");
                             String username = friendInfo.getString("username");
-                            AddFriendItem friend = new AddFriendItem(username, fname, lname, tripId);
+                            AddFriendItem friend = new AddFriendItem(username, fname, lname, friendIntent.getStringExtra("tripId"));
                             friendList.add(friend);
 
                             // Update the recycler view here by adding all items to adapter
@@ -184,6 +177,9 @@ public class AddFriendActivity extends AppCompatActivity {
 
                             rView.setLayoutManager(rManager);
                             rView.setAdapter(rAdapter);
+
+                            addUserToTrip(friendIntent.getStringExtra("tripId"), username);
+                            addTripsToUsers(username, friendIntent.getStringExtra("tripname"));
                         }
                     } else {
                         Log.d(TAG, "No matching document/friend found");
@@ -223,14 +219,13 @@ public class AddFriendActivity extends AppCompatActivity {
         db.collection("users").document(username).update(updatedList);
     }
 
-    public void addUsersToTrip(final String tripId){
+    // you changed this
+    public void addUserToTrip(final String tripId, final String username){
         db.collection("trips").document(tripId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 currentFriends = (List<String>)task.getResult().get("friends");
-                for(String friend : friends){
-                    currentFriends.add(friend);
-                }
+                currentFriends.add(username);
                 Log.i(TAG, "Full list of friends on file: " + currentFriends.toString());
                 updateTrip(tripId);
             }
@@ -246,19 +241,4 @@ public class AddFriendActivity extends AppCompatActivity {
         db.collection("trips").document(tripId).update(updatedList);
     }
 
-    private void checkPermissions(){
-        // retrieve trip information for field "leader"
-        db.collection("trips").document(friendIntent.getStringExtra("tripId"))
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    if(task.getResult().get("leader").toString().equals(friendIntent.getStringExtra("username"))){
-                        Log.i(TAG, "User has admin permissions");
-                        hasPermissions = true;
-                    }
-                }
-            }
-        });
-    }
 }

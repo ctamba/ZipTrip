@@ -8,6 +8,7 @@ import com.example.ziptrip.recyclerviews.RetrieveTripsAdapter;
 import com.example.ziptrip.ui.login.LoginActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
@@ -15,6 +16,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -131,25 +135,38 @@ public class DashboardActivity extends AppCompatActivity{
     }
 
     public void onTripCardClick(View view){
-        TextView tripNameTv = (TextView)view.findViewById(R.id.tripNameTv);
-        String tripId = dashIntent.getStringExtra("username") + "-" + tripNameTv.getText().toString();
-        Intent tripAtAGlanceIntent = new Intent(getApplicationContext(), TripAtAGlanceActivity.class);
-        tripAtAGlanceIntent.putExtra("tripId", tripId);
-        tripAtAGlanceIntent.putExtra("username", dashIntent.getStringExtra("username"));
-        startActivity(tripAtAGlanceIntent);
+        final TextView tripNameTv = (TextView)view.findViewById(R.id.tripNameTv);
+        // start intent inside query
+        // Query trips that have current user listed as a friend
+        db.collection("trips").whereArrayContains("friends", dashIntent.getStringExtra("username"))
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.getDocuments() != null){
+                    for(QueryDocumentSnapshot trip : queryDocumentSnapshots){
+                        // If the trip name matches one in database, send intent for that trip id
+                        if(trip.get("tripname").equals(tripNameTv.getText().toString())){
+                            String tripId = trip.getId();
+                            Intent tripAtAGlanceIntent = new Intent(getApplicationContext(), TripAtAGlanceActivity.class);
+                            tripAtAGlanceIntent.putExtra("tripId", tripId);
+                            tripAtAGlanceIntent.putExtra("username", dashIntent.getStringExtra("username"));
+                            startActivity(tripAtAGlanceIntent);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     public void retrieveTrips(){
-        // get user trips from property
-        db.collection("users").document(dashIntent.getStringExtra("username"))
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        // Query trips that have current user listed as a friend
+        db.collection("trips").whereArrayContains("friends", dashIntent.getStringExtra("username"))
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
-                    List<String> userTrips = (List<String>)task.getResult().get("trips");
-                    for(String trip : userTrips){
-                        Log.i(TAG, "Found trip: " + trip);
-                        makeTripGUI(dashIntent.getStringExtra("username") + "-" + trip); // FIGURE OUT HOW TO FIX THIS
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.getDocuments() != null){
+                    for(QueryDocumentSnapshot trip : queryDocumentSnapshots){
+                        makeTripGUI(trip.getId());
                     }
                 }
             }
