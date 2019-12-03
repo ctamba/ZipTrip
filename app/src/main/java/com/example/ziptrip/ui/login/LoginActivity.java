@@ -31,8 +31,13 @@ import com.example.ziptrip.DashboardActivity;
 import com.example.ziptrip.R;
 import com.example.ziptrip.ui.login.LoginViewModel;
 import com.example.ziptrip.ui.login.LoginViewModelFactory;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private LoginViewModel loginViewModel;
 
@@ -76,16 +81,13 @@ public class LoginActivity extends AppCompatActivity {
                     showLoginFailed(loginResult.getError());
                 }
                 if (loginResult.getSuccess() != null) {
-                    // Send user to dashboard with extra
-                    Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
-                    dashboardIntent.putExtra("username", usernameEditText.getText().toString());
-                    startActivity(dashboardIntent);
-                    finish();
+                    // check to see if username and password is valid
+                    checkCredentials(usernameEditText.getText().toString(), passwordEditText.getText().toString());
                 }
                 setResult(Activity.RESULT_OK);
-
-                //Complete and destroy login activity once successful
-                finish();
+//
+//                //Complete and destroy login activity once successful
+//                finish();
             }
         });
 
@@ -147,5 +149,30 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    }
+
+    private void checkCredentials(final String username, final String password){
+        db.collection("users").document(username).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful() && task.getResult() != null){
+                            if(task.getResult().get("password").equals(password)){
+                                // Send user to dashboard with extra
+                                Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
+                                dashboardIntent.putExtra("username", username);
+                                startActivity(dashboardIntent);
+
+                                finish();
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "Username and password combination do not exist.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), "Username and password combination do not exist.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

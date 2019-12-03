@@ -63,6 +63,10 @@
     <string name="leader_label">Leader:</string>
     <string name="drivers_label">Drivers:</string>
 
+    <!-- Strings for details page -->
+    <string name="details_title">Trip Details</string>
+    <string name="duration_label">Duration</string>
+
     <!-- Strings related to Shopping list page -->
     <string name="input_item_label">Item name</string>
     <string name="add_item_label">Add</string>
@@ -77,5 +81,8 @@
     <string name="add_driver_label">Add Driver</string>
     <string name="remove_driver_label">Remove Driver</string>
     <string name="username_input_label">Enter username</string>
+
+    <!-- Strings related to viewing stops -->
+    <string name="view_stops_title">Stops</string>
 
 </resources>

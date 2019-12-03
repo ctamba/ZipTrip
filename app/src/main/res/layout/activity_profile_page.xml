@@ -18,95 +18,112 @@
         android:text="@string/profileLabel"
         android:textSize="30sp" />
 
-    <TableLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="204dp">
+        android:layout_height="wrap_content">
 
-        <TableRow
-            android:id="@+id/nameRow"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/customborder"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/nameLabel"
-                android:layout_width="159dp"
-                android:layout_height="match_parent"
-                android:text="@string/nameLabel"
-                android:textSize="18sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/customborder"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/profileName"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textSize="18sp" />
-        </TableRow>
+                <TextView
+                    android:id="@+id/nameLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/nameLabel"
+                    android:textSize="18sp" />
 
-        <TableRow
-            android:id="@+id/emailRow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/profileName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/emailLabel"
-                android:layout_width="57dp"
-                android:layout_height="57dp"
-                android:text="@string/emailLabel"
-                android:textSize="18sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/customborder"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/emailAddress"
-                android:layout_width="247dp"
-                android:layout_height="59dp"
-                android:textSize="18sp" />
-        </TableRow>
+                <TextView
+                    android:id="@+id/emailLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/emailLabel"
+                    android:textSize="18sp" />
 
-        <TableRow
-            android:id="@+id/phoneRow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/emailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/phoneLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="47dp"
-                android:text="@string/phoneLabel"
-                android:textSize="18sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/customborder"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/phoneNum"
+                <TextView
+                    android:id="@+id/phoneLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/phoneLabel"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/phoneNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="18sp" />
-        </TableRow>
+                android:layout_margin="5dp"
+                android:background="@drawable/customborder"
+                android:orientation="vertical">
 
-        <TableRow
-            android:id="@+id/passwordRow"
-            android:layout_width="364dp"
-            android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/passswordLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/passwordLabel"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/passswordLabel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/passwordLabel"
-                android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="31dp"
-                android:textSize="18sp" />
-        </TableRow>
+            <Button
+                android:id="@+id/editProfileBtn"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:text="@string/editProfileLabel"
+                android:textAllCaps="false" />
 
-    </TableLayout>
-
-    <Button
-        android:id="@+id/editProfileBtn"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:text="@string/editProfileLabel" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

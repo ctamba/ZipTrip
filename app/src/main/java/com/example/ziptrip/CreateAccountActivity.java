@@ -14,10 +14,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +33,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     EditText fNameInput, lNameInput, emailInput, passwdInput, validatePasswdInput, phoneInput, usernameInput;
-    TableRow verifyEmail, verifyPassword;
+    TextView verifyEmail, verifyPassword;
     Button createAccountBtn;
     String TAG = "CreateAccount";
 
@@ -46,8 +49,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         validatePasswdInput = (EditText)findViewById(R.id.checkPasswdInput);
         phoneInput = (EditText)findViewById(R.id.phoneInput);
         usernameInput = (EditText)findViewById(R.id.usernameInput);
-        verifyPassword = (TableRow)findViewById(R.id.verifyPasswdRow);
-        verifyEmail = (TableRow)findViewById(R.id.verifyEmailRow);
+        verifyPassword = (TextView) findViewById(R.id.passwdNotMatchTv);
+        verifyEmail = (TextView)findViewById(R.id.invalidEmailTv);
         createAccountBtn = (Button)findViewById(R.id.createAccountBtn);
         createAccountBtn.setEnabled(false);
 

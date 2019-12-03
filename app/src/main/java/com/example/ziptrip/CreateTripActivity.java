@@ -168,6 +168,7 @@ public class CreateTripActivity extends AppCompatActivity implements OnMapReadyC
                 CreateTripActivity.this.finish();
             }
         });
+
     }
 
     @Override

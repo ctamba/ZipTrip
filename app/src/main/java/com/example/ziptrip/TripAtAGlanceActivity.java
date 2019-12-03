@@ -117,6 +117,26 @@ public class TripAtAGlanceActivity extends AppCompatActivity implements OnMapRea
         mapFragment.getMapAsync(this);
 
         // Onclick listeners
+        tripDetailsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create intent to pass to details page
+                Intent detailsIntent = new Intent(getApplicationContext(), DetailsActivity.class);
+                detailsIntent.putExtra("tripId", glanceIntent.getStringExtra("tripId"));
+                startActivity(detailsIntent);
+            }
+        });
+
+        tripStopsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create intent
+                Intent stopsIntent = new Intent(getApplicationContext(), StopsActivity.class);
+                stopsIntent.putExtra("tripId", glanceIntent.getStringExtra("tripId"));
+                startActivity(stopsIntent);
+            }
+        });
+
         addFriendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

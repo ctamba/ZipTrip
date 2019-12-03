@@ -74,11 +74,13 @@ public class AddFriendAdapter extends RecyclerView.Adapter<AddFriendAdapter.AddF
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful() && task.getResult() != null){
                             List<String> currentFriendList = (List<String>)task.getResult().get("friends");
-                            if(currentFriendList.contains(currentItem.getUsername())){
-                                currentFriendList.remove(currentFriendList.indexOf(currentItem.getUsername()));
+                            if(currentFriendList != null){
+                                if(currentFriendList.contains(currentItem.getUsername())){
+                                    currentFriendList.remove(currentFriendList.indexOf(currentItem.getUsername()));
+                                }
+                                // Update document
+                                updateFriends(currentItem.getTripId(), currentFriendList);
                             }
-                            // Update document
-                            updateFriends(currentItem.getTripId(), currentFriendList);
                         }
                     }
                 });
